@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Api", "Forum.Api\Foru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Domain", "Forum.Domain\Forum.Domain.csproj", "{BEB81DE2-3256-4F2E-900F-89B6637A22DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Application", "Forum.Application\Forum.Application.csproj", "{F8811249-4739-4A87-8583-F34C1A18A22F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure", "Forum.Infrastructure\Forum.Infrastructure.csproj", "{4E156FCC-CF1F-41F5-93F6-F42401C537AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BEB81DE2-3256-4F2E-900F-89B6637A22DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEB81DE2-3256-4F2E-900F-89B6637A22DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEB81DE2-3256-4F2E-900F-89B6637A22DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8811249-4739-4A87-8583-F34C1A18A22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8811249-4739-4A87-8583-F34C1A18A22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8811249-4739-4A87-8583-F34C1A18A22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8811249-4739-4A87-8583-F34C1A18A22F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E156FCC-CF1F-41F5-93F6-F42401C537AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E156FCC-CF1F-41F5-93F6-F42401C537AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E156FCC-CF1F-41F5-93F6-F42401C537AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E156FCC-CF1F-41F5-93F6-F42401C537AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

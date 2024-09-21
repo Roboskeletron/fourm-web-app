@@ -1,4 +1,17 @@
+using Forum.Domain;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var configuration = builder.Configuration;
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var connectionString = configuration.GetConnectionString("postgres")
+        ?? throw new InvalidOperationException("Connection string for postgres is not provided");
+
+    options.UseNpgsql(connectionString);
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
