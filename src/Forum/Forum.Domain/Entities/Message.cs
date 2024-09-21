@@ -10,4 +10,10 @@ public class Message
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
+
+    public required User Author { get; set; }
+
+    public List<MessageLike> Likes { get; set; } = [];
+
+    public List<MessageFile> Files { get; set; } = [];
 }
