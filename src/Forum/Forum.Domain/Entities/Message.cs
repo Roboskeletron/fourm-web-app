@@ -5,7 +5,7 @@ public class Message
 
     public required string Text { get; set; }
 
-    public Guid CreatedBy { get; set; }
+    public Guid UserId { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -16,4 +16,6 @@ public class Message
     public List<MessageLike> Likes { get; set; } = [];
 
     public List<MessageFile> Files { get; set; } = [];
+
+    public const int TextMaxLength = 1000;
 }

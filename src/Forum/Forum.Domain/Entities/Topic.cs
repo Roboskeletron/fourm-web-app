@@ -7,7 +7,11 @@ public class Topic
 
     public string? Description { get; set; }
 
-    public Guid CreatedBy { get; set; }
+    public Guid UserId { get; set; }
 
     public required User Author { get; set; }
+
+    public const int TitleMaxLength = 25;
+
+    public const int DescriptionMaxLength = 1000;
 }
