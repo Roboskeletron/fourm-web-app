@@ -18,7 +18,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
 
         builder.HasMany<User>()
             .WithMany()
-            .UsingEntity<MessageLike>($"{nameof(MessageLike)}s");
+            .UsingEntity<MessageLike>();
 
         builder.HasMany(x => x.Files)
             .WithOne()
