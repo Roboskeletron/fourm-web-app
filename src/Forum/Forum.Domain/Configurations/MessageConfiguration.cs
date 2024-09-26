@@ -16,9 +16,9 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .WithMany()
             .HasForeignKey(x => x.UserId);
 
-        builder.HasMany<User>()
-            .WithMany()
-            .UsingEntity<MessageLike>();
+        builder.HasMany(x => x.Likes)
+            .WithOne()
+            .HasForeignKey(x => x.MessageId);
 
         builder.HasMany(x => x.Files)
             .WithOne()

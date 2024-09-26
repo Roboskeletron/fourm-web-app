@@ -1,7 +1,7 @@
 ﻿namespace Forum.Domain.Entities;
-public class MessageFile
+public class File
 {
-    public long MessageId { get; set; }
+    public Guid MessageId { get; set; }
 
     public Guid FileId { get; set; }
 }

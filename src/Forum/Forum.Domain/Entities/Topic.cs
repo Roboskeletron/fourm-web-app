@@ -11,6 +11,8 @@ public class Topic
 
     public required User Author { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public const int TitleMaxLength = 25;
 
     public const int DescriptionMaxLength = 1000;

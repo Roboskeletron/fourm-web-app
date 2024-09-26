@@ -13,6 +13,8 @@ public class User
 
     public DateTime CreatedAt { get; set; }
 
+    public required List<Role> Roles { get; set; }
+
     public const int DescriptionMaxLength = 1000;
 
     public const int NameMaxLength = 255;
