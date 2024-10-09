@@ -1,4 +1,5 @@
 ﻿using Forum.Domain.Entities;
+using Forum.Domain.RBAC;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,5 +14,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsUnique();
 
         builder.ToTable($"{nameof(Role)}s");
+
+        builder.HasData(Roles.All);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Forum.Domain.Entities;
+using Forum.Infrastructure.Persistence.TestData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,6 +25,12 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .WithOne()
             .HasForeignKey(x => x.MessageId);
 
+        builder.HasOne<Topic>()
+            .WithMany()
+            .HasForeignKey(x => x.TopicId);
+
         builder.ToTable($"{nameof(Message)}s");
+
+        builder.HasData(Messages.All());
     }
 }

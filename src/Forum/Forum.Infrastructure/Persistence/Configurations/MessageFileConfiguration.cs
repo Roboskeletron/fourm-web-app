@@ -1,14 +1,14 @@
-﻿using Forum.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using File = Forum.Domain.Entities.File;
 
 namespace Forum.Domain.Configurations;
-public class MessageFileConfiguration : IEntityTypeConfiguration<MessageFile>
+public class MessageFileConfiguration : IEntityTypeConfiguration<File>
 {
-    public void Configure(EntityTypeBuilder<MessageFile> builder)
+    public void Configure(EntityTypeBuilder<File> builder)
     {
         builder.HasKey(x => x.FileId);
 
-        builder.ToTable($"{nameof(MessageFile)}s");
+        builder.ToTable($"{nameof(File)}s");
     }
 }

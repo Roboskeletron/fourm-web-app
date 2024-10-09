@@ -1,4 +1,5 @@
 ﻿using Forum.Domain.Entities;
+using Forum.Infrastructure.Persistence.TestData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,5 +24,7 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
             .HasForeignKey(x => x.UserId);
 
         builder.ToTable($"{nameof(Topic)}s");
+
+        builder.HasData(Topics.All);
     }
 }

@@ -9,7 +9,7 @@ public class Topic
 
     public Guid UserId { get; set; }
 
-    public required User Author { get; set; }
+    public User Author { get; set; }
 
     public bool IsDeleted { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using Forum.Domain.Entities;
+using Forum.Infrastructure.Persistence.TestData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -29,5 +30,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany();
 
         builder.ToTable($"{nameof(User)}s");
+
+        builder.HasData(Users.All);
     }
 }

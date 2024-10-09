@@ -5,6 +5,8 @@ public class Message
 
     public required string Text { get; set; }
 
+    public required Guid TopicId { get; set; }
+
     public Guid UserId { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -13,7 +15,7 @@ public class Message
 
     public bool IsDeleted { get; set; }
 
-    public required User Author { get; set; }
+    public User Author { get; set; }
 
     public List<Like> Likes { get; set; } = [];
 
