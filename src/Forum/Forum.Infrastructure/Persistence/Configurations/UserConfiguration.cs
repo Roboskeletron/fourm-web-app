@@ -21,6 +21,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Email)
             .HasMaxLength(User.EmailMaxLength);
 
+        builder.HasMany<Like>()
+            .WithOne()
+            .HasForeignKey(x => x.UserId);
+
+        builder.HasMany(x => x.Roles)
+            .WithMany();
+
         builder.ToTable($"{nameof(User)}s");
     }
 }

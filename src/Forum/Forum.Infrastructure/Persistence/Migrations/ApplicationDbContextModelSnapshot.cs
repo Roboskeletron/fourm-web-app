@@ -22,16 +22,54 @@ namespace Forum.Domain.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Forum.Domain.Entities.File", b =>
+                {
+                    b.Property<Guid>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("FileId");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("Files", (string)null);
+                });
+
+            modelBuilder.Entity("Forum.Domain.Entities.Like", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes", (string)null);
+                });
+
             modelBuilder.Entity("Forum.Domain.Entities.Message", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -51,35 +89,24 @@ namespace Forum.Domain.Migrations
                     b.ToTable("Messages", (string)null);
                 });
 
-            modelBuilder.Entity("Forum.Domain.Entities.MessageFile", b =>
+            modelBuilder.Entity("Forum.Domain.Entities.Role", b =>
                 {
-                    b.Property<Guid>("FileId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<long>("MessageId")
-                        .HasColumnType("bigint");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.HasKey("FileId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.HasIndex("MessageId");
+                    b.HasKey("Id");
 
-                    b.ToTable("MessageFiles", (string)null);
-                });
+                    b.HasIndex("Name")
+                        .IsUnique();
 
-            modelBuilder.Entity("Forum.Domain.Entities.MessageLike", b =>
-                {
-                    b.Property<long>("MessageId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("MessageId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MessageLike");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Forum.Domain.Entities.Topic", b =>
@@ -91,6 +118,9 @@ namespace Forum.Domain.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -144,18 +174,22 @@ namespace Forum.Domain.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Forum.Domain.Entities.Message", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.HasOne("Forum.Domain.Entities.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("RolesId")
+                        .HasColumnType("integer");
 
-                    b.Navigation("Author");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RoleUser");
                 });
 
-            modelBuilder.Entity("Forum.Domain.Entities.MessageFile", b =>
+            modelBuilder.Entity("Forum.Domain.Entities.File", b =>
                 {
                     b.HasOne("Forum.Domain.Entities.Message", null)
                         .WithMany("Files")
@@ -164,7 +198,7 @@ namespace Forum.Domain.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Forum.Domain.Entities.MessageLike", b =>
+            modelBuilder.Entity("Forum.Domain.Entities.Like", b =>
                 {
                     b.HasOne("Forum.Domain.Entities.Message", null)
                         .WithMany("Likes")
@@ -179,6 +213,17 @@ namespace Forum.Domain.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Forum.Domain.Entities.Message", b =>
+                {
+                    b.HasOne("Forum.Domain.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("Forum.Domain.Entities.Topic", b =>
                 {
                     b.HasOne("Forum.Domain.Entities.User", "Author")
@@ -188,6 +233,21 @@ namespace Forum.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("Forum.Domain.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Forum.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Forum.Domain.Entities.Message", b =>

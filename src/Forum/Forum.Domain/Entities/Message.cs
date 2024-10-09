@@ -1,7 +1,7 @@
 ﻿namespace Forum.Domain.Entities;
 public class Message
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
     public required string Text { get; set; }
 
@@ -11,11 +11,13 @@ public class Message
 
     public DateTime UpdatedAt { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public required User Author { get; set; }
 
-    public List<MessageLike> Likes { get; set; } = [];
+    public List<Like> Likes { get; set; } = [];
 
-    public List<MessageFile> Files { get; set; } = [];
+    public List<File> Files { get; set; } = [];
 
     public const int TextMaxLength = 1000;
 }
