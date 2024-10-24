@@ -1,4 +1,5 @@
 using Forum.Api;
+using Forum.Application;
 using Forum.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services
+    .AddApplicationServices()
     .AddApiServices(configuration);
 
 builder.Services.AddControllers();
