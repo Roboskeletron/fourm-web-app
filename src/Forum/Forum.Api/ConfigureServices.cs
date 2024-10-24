@@ -5,6 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 namespace Forum.Api;
 public static class ConfigureServices
 {
+    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthorization(configuration);
+
+        return services;
+    }
+
     public static IServiceCollection AddAuthorization(this IServiceCollection services, IConfiguration configuration)
     {
         var authOptions = configuration

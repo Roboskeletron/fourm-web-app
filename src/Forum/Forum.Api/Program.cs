@@ -14,7 +14,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString);
 });
 
-builder.Services.AddAuthorization(configuration);
+builder.Services
+    .AddApiServices(configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
