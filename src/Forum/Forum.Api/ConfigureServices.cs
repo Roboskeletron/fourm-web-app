@@ -26,7 +26,7 @@ public static class ConfigureServices
         .AddJwtBearer(options =>
         {
             options.MapInboundClaims = false;
-            options.RequireHttpsMetadata = authOptions.EnableUnsafeAuth;
+            options.RequireHttpsMetadata = !authOptions.EnableUnsafeAuth;
 
             options.Audience = authOptions.Audience;
             options.Authority = authOptions.Authority;
