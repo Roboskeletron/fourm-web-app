@@ -2,6 +2,8 @@ using Forum.Api;
 using Forum.Api.Middlewares;
 using Forum.Application;
 using Forum.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +15,7 @@ builder.Services
     .AddApiServices(configuration);
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 
@@ -25,9 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<UserProviderInitiatorMiddleware>();
-
 app.UseAuthentication();
+app.UseMiddleware<UserProviderInitiatorMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
