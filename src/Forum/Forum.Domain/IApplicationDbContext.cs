@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Forum.Domain;
 public interface IApplicationDbContext
 {
-    public DbSet<User> Users { get; }
+    DbSet<User> Users { get; }
 
-    public DbSet<Topic> Topic { get; }
+    DbSet<Topic> Topic { get; }
 
-    public DbSet<Message> Message { get; }
+    DbSet<Message> Message { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
 

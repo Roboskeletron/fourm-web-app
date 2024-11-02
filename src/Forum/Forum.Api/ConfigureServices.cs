@@ -1,4 +1,5 @@
-﻿using Forum.Api.Options;
+﻿using Forum.Api.Middlewares;
+using Forum.Api.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -41,6 +42,8 @@ public static class ConfigureServices
         });
 
         services.AddAuthorization();
+
+        services.AddScoped<UserProviderInitiatorMiddleware>();
 
         return services;
     }

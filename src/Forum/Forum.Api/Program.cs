@@ -1,22 +1,15 @@
 using Forum.Api;
+using Forum.Api.Middlewares;
 using Forum.Application;
-using Forum.Domain;
-using Microsoft.EntityFrameworkCore;
+using Forum.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    var connectionString = configuration.GetConnectionString("postgres")
-        ?? throw new InvalidOperationException("Connection string for postgres is not provided");
-
-    options.UseNpgsql(connectionString);
-});
-
 builder.Services
     .AddApplicationServices()
+    .AddInfrastructureServices(configuration)
     .AddApiServices(configuration);
 
 builder.Services.AddControllers();
@@ -31,6 +24,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<UserProviderInitiatorMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

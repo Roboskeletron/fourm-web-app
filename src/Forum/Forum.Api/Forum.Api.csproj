@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Auth\" />
+  </ItemGroup>
+
 </Project>
