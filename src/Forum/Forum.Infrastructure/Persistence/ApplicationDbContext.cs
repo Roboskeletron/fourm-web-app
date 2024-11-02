@@ -1,8 +1,9 @@
-﻿using Forum.Domain.Entities;
+﻿using Forum.Domain;
+using Forum.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace Forum.Domain;
+namespace Forum.Infrastructure.Persistence;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {

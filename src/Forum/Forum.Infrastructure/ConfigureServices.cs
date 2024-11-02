@@ -1,6 +1,7 @@
 ﻿using Forum.Application.Common.Intrefaces;
 using Forum.Domain;
 using Forum.Infrastructure.Common.Builders;
+using Forum.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
