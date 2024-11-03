@@ -29,6 +29,7 @@ public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<T
                     .Distinct()
                     .Count(),
             })
+            .OrderBy(x => x.Title)
             .ToPagedList(request.Pagination, cancellationToken);
     }
 }

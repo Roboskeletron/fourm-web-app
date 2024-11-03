@@ -2,8 +2,6 @@ using Forum.Api;
 using Forum.Api.Middlewares;
 using Forum.Application;
 using Forum.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
