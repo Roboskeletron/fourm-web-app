@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Forum.Application.Common.Models;
+using Forum.Application.Topics.Queries.GetTopics;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers;
 
 public class TopicsController : ApiControllerBase
 {
-    [HttpGet("echo")]
-    public Task<int> Echo(int number, CancellationToken cancellationToken)
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult<PagedList<TopicDto>>> GetTopicsAsync(
+        [FromQuery(Name = "search")] string? searchQuery,
+        [FromQuery] PaginationParameters pagination,
+        CancellationToken cancellationToken)
     {
-        return Task.FromResult(number);
+        return await Mediator.Send(new GetTopicsQuery
+        {
+            Pagination = pagination,
+            SearchQuery = searchQuery,
+        }, cancellationToken);
     }
 }
