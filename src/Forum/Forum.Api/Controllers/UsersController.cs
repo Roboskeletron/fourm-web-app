@@ -1,4 +1,5 @@
 ﻿using Forum.Application.Common.Models;
+using Forum.Application.Users.Commands.UpdateProfile;
 using Forum.Application.Users.Queries.GetProfile;
 using Forum.Application.Users.Queries.GetUserById;
 using Microsoft.AspNetCore.Authorization;
@@ -23,5 +24,15 @@ public class UsersController : ApiControllerBase
     public async Task<ActionResult<UserDto>> GetUserProfileByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new GetUserByIdQuery { UserId = id }, cancellationToken);
+    }
+
+    [HttpPut("profile")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> UpdateProfileAsync([FromBody] UpdateProfileCommand command, CancellationToken cancellationToken)
+    {
+        await Mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }
