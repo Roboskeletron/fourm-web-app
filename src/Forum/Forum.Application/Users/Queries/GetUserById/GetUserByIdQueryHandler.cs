@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Forum.Application.Common.Exceptions;
 using Forum.Application.Common.Models;
 using Forum.Domain;
+using Forum.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +23,8 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto
         var user = await _dbContext.Users
             .Include(x => x.Roles)
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
-
-        // TODO: throw not found exception
+            .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken)
+            ?? throw new NotFoundException(nameof(User), request.UserId);
 
         return _mapper.Map<UserDto>(user);
     }

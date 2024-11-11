@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Forum.Application.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -8,9 +9,10 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddMediatR(cnf =>
+        services.AddMediatR(cfg =>
         {
-            cnf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         })
         .AddAutoMapper(Assembly.GetExecutingAssembly())
         .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
