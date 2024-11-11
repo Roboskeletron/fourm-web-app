@@ -1,4 +1,6 @@
-﻿using Forum.Api.Middlewares;
+﻿using Forum.Api.ExceptionHandlers;
+using Forum.Api.Factories;
+using Forum.Api.Middlewares;
 using Forum.Api.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +12,10 @@ public static class ConfigureServices
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthorization(configuration);
+
+        services.AddSingleton<IProblemDetailsFactory, ProblemDetailsFactory>()
+            .AddExceptionHandler<GlobalExceptionHandler>()
+            .AddProblemDetails();
 
         return services;
     }

@@ -24,6 +24,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
+
 app.UseAuthentication();
 app.UseMiddleware<UserProviderInitiatorMiddleware>();
 app.UseAuthorization();

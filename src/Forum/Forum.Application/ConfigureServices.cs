@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Forum.Application;
@@ -11,7 +12,8 @@ public static class ConfigureServices
         {
             cnf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         })
-        .AddAutoMapper(Assembly.GetExecutingAssembly());
+        .AddAutoMapper(Assembly.GetExecutingAssembly())
+        .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
     }
