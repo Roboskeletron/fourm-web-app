@@ -10,7 +10,6 @@ public class UserMappingProfile : Profile
     {
         CreateMap<User, UserDto>();
 
-        CreateMap<UpdateProfileCommand, User>()
-            .ForMember(dest => dest.Name, opt => opt.Condition(src => !string.IsNullOrWhiteSpace(src.Name)));
+        CreateMap<UpdateProfileCommand, User>();
     }
 }

@@ -8,7 +8,9 @@ public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileComm
     {
         RuleFor(x => x.Name)
             .MaximumLength(User.NameMaxLength)
-            .WithMessage("Name max length exceeded");
+            .WithMessage("Name max length exceeded")
+            .NotEmpty()
+            .WithMessage("Name is required");
 
         RuleFor(x => x.Description)
             .MaximumLength(User.DescriptionMaxLength)
