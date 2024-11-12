@@ -11,5 +11,7 @@ public class UserMappingProfile : Profile
         CreateMap<User, UserDto>();
 
         CreateMap<UpdateProfileCommand, User>();
+
+        CreateMap<User, AuthorDto>();
     }
 }

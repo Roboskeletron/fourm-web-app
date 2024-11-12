@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Forum.Application.Common.Extensions;
 public static class PagedListExtensions
 {
-    public static async Task<PagedList<T>> ToPagedList<T>(this IQueryable<T> query, PaginationParameters paginationParameters, CancellationToken cancellationToken = default) where T : class
+    public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> query, PaginationParameters paginationParameters, CancellationToken cancellationToken = default) where T : class
     {
         var items = await query
             .Skip(paginationParameters.PageSize * (paginationParameters.PageNumber - 1))
