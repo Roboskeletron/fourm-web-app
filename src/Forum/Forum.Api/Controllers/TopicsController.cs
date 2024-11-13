@@ -1,5 +1,6 @@
 ﻿using Forum.Application.Common.Models;
 using Forum.Application.Topics.Commands.CreateTopic;
+using Forum.Application.Topics.Queries.GetTopicById;
 using Forum.Application.Topics.Queries.GetTopicMessages;
 using Forum.Application.Topics.Queries.GetTopics;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +24,16 @@ public class TopicsController : ApiControllerBase
             Pagination = pagination,
             SearchQuery = searchQuery,
         }, cancellationToken);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult<TopicDto>> GetTopicByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new GetTopicByIdQuery { TopicId = id }, cancellationToken);
     }
 
     [HttpGet("{id}/messages")]
@@ -50,6 +61,6 @@ public class TopicsController : ApiControllerBase
     public async Task<ActionResult<Guid>> CreateTopicAsync([FromBody] CreateTopicCommand command, CancellationToken cancellationToken)
     {
         var topicId = await Mediator.Send(command, cancellationToken);
-        return CreatedAtAction(null, topicId);
+        return CreatedAtAction(nameof(GetTopicByIdAsync),);
     }
 }
