@@ -10,8 +10,7 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
     {
         builder.HasKey(x => x.Id);
 
-        builder.HasIndex(x => x.Title)
-            .IsUnique();
+        builder.HasIndex(x => x.Title);
 
         builder.Property(x => x.Title)
             .HasMaxLength(Topic.TitleMaxLength);

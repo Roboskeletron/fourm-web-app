@@ -1,4 +1,5 @@
 ﻿using Forum.Application.Common.Models;
+using Forum.Application.Topics.Commands.CreateTopic;
 using Forum.Application.Topics.Queries.GetTopicMessages;
 using Forum.Application.Topics.Queries.GetTopics;
 using Microsoft.AspNetCore.Authorization;
@@ -40,5 +41,15 @@ public class TopicsController : ApiControllerBase
             Pagination = pagination,
             SearchQuery = searchQuery,
         }, cancellationToken);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<Guid>> CreateTopicAsync([FromBody] CreateTopicCommand command, CancellationToken cancellationToken)
+    {
+        var topicId = await Mediator.Send(command, cancellationToken);
+        return CreatedAtAction(null, topicId);
     }
 }
