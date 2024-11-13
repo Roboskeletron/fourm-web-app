@@ -30,6 +30,7 @@ public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<T
                     .Count(),
             })
             .OrderBy(x => x.Title)
+            .AsNoTracking()
             .ToPagedListAsync(request.Pagination, cancellationToken);
     }
 }
