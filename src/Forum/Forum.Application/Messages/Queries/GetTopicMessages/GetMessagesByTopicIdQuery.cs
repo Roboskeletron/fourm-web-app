@@ -1,8 +1,8 @@
 ﻿using Forum.Application.Common.Models;
 using MediatR;
 
-namespace Forum.Application.Topics.Queries.GetTopicMessages;
-public record GetTopicMessagesQuery : IRequest<PagedList<MessageDto>>
+namespace Forum.Application.Messages.Queries.GetTopicMessages;
+public record GetMessagesByTopicIdQuery : IRequest<PagedList<MessageDto>>
 {
     public Guid TopicId { get; init; }
 

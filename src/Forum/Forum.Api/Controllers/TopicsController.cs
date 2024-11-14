@@ -1,7 +1,8 @@
 ﻿using Forum.Application.Common.Models;
+using Forum.Application.Messages.Commands.CreateMessage;
+using Forum.Application.Messages.Queries.GetTopicMessages;
 using Forum.Application.Topics.Commands.CreateTopic;
 using Forum.Application.Topics.Queries.GetTopicById;
-using Forum.Application.Topics.Queries.GetTopicMessages;
 using Forum.Application.Topics.Queries.GetTopics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +47,7 @@ public class TopicsController : ApiControllerBase
         [FromQuery] PaginationParameters pagination,
         CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new GetTopicMessagesQuery
+        return await Mediator.Send(new GetMessagesByTopicIdQuery
         {
             TopicId = id,
             Pagination = pagination,
@@ -61,6 +62,26 @@ public class TopicsController : ApiControllerBase
     public async Task<ActionResult<Guid>> CreateTopicAsync([FromBody] CreateTopicCommand command, CancellationToken cancellationToken)
     {
         var topicId = await Mediator.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetTopicByIdAsync),);
+        return CreatedAtAction(nameof(GetTopicByIdAsync), topicId);
+    }
+
+    [HttpPost("{id}/messages")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<Guid>> SendMessageAsync(
+        [FromRoute] Guid id,
+        [FromBody] CreateMessageCommand command,
+        CancellationToken cancellationToken)
+    {
+        if (id != command.TopicId)
+        {
+            return BadRequest();
+        }
+
+        var topicId = await Mediator.Send(command, cancellationToken);
+
+        return CreatedAtAction(null, topicId);
     }
 }

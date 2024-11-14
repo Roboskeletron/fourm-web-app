@@ -6,21 +6,21 @@ using Forum.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Forum.Application.Topics.Queries.GetTopicMessages;
-public class GetTopicMessagesQueryHandler : IRequestHandler<GetTopicMessagesQuery, PagedList<MessageDto>>
+namespace Forum.Application.Messages.Queries.GetTopicMessages;
+public class GetMessagesByTopicIdQueryHandler : IRequestHandler<GetMessagesByTopicIdQuery, PagedList<MessageDto>>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserProvider _userProvider;
     private readonly IMapper _mapper;
 
-    public GetTopicMessagesQueryHandler(IApplicationDbContext dbContext, IUserProvider userProvider, IMapper mapper)
+    public GetMessagesByTopicIdQueryHandler(IApplicationDbContext dbContext, IUserProvider userProvider, IMapper mapper)
     {
         _dbContext = dbContext;
         _userProvider = userProvider;
         _mapper = mapper;
     }
 
-    public async Task<PagedList<MessageDto>> Handle(GetTopicMessagesQuery request, CancellationToken cancellationToken)
+    public async Task<PagedList<MessageDto>> Handle(GetMessagesByTopicIdQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Message
             .Where(x => x.TopicId == request.TopicId && !x.IsDeleted)
