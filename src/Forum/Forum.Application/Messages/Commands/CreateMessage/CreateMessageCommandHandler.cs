@@ -5,11 +5,6 @@ using Forum.Domain;
 using Forum.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forum.Application.Messages.Commands.CreateMessage;
 public class CreateMessageCommandHandler : IRequestHandler<CreateMessageCommand, Guid>
@@ -27,16 +22,18 @@ public class CreateMessageCommandHandler : IRequestHandler<CreateMessageCommand,
 
     public async Task<Guid> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
     {
-        var topic = await _dbContext.Topic.FirstOrDefaultAsync(x => x.Id ==  request.TopicId, cancellationToken)
+        var topic = await _dbContext.Topic.FirstOrDefaultAsync(x => x.Id == request.TopicId, cancellationToken)
             ?? throw new NotFoundException(nameof(Topic), request.TopicId);
 
         var message = _mapper.Map<Message>(request);
 
         message.Author = _userProvider.User!;
         message.CreatedAt = DateTime.UtcNow;
-        
+
         _dbContext.Message.Add(message);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return message.Id;
     }
 }
