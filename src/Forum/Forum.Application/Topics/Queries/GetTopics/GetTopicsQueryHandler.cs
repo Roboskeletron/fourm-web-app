@@ -23,6 +23,7 @@ public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<T
                 Id = x.Id,
                 Title = x.Title,
                 AuthorId = x.UserId,
+                Description = x.Description,
                 UserCount = _dbContext.Message
                     .Where(m => m.TopicId == x.Id)
                     .Select(m => m.UserId)

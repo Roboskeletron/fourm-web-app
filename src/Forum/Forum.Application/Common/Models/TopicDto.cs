@@ -5,6 +5,8 @@ public record TopicDto
 
     public required string Title { get; init; }
 
+    public string? Description { get; init; }
+
     public Guid AuthorId { get; init; }
 
     public int UserCount { get; init; }
