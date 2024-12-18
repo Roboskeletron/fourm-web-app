@@ -2,6 +2,7 @@
 using Forum.Application.Messages.Commands.CreateMessage;
 using Forum.Application.Messages.Queries.GetTopicMessages;
 using Forum.Application.Topics.Commands.CreateTopic;
+using Forum.Application.Topics.Queries.ExistsByTitle;
 using Forum.Application.Topics.Queries.GetTopicById;
 using Forum.Application.Topics.Queries.GetTopics;
 using Microsoft.AspNetCore.Authorization;
@@ -83,5 +84,14 @@ public class TopicsController : ApiControllerBase
         var topicId = await Mediator.Send(command, cancellationToken);
 
         return CreatedAtAction(null, topicId);
+    }
+
+    [HttpGet("exists-by-title")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult<bool>> TopicExistsByTitleAsync([FromQuery] string title, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new TopicExistsByTitleQuery { Title = title }, cancellationToken);
     }
 }
