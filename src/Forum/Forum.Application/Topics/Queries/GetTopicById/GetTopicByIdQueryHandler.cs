@@ -22,6 +22,7 @@ public class GetTopicByIdQueryHandler : IRequestHandler<GetTopicByIdQuery, Topic
             {
                 Id = x.Id,
                 Title = x.Title,
+                Description = x.Description,
                 AuthorId = x.Author.Id,
                 UserCount = _dbContext.Message.Where(m => m.TopicId == x.Id).Count(),
             })
