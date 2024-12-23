@@ -2,6 +2,7 @@
 using Forum.Application.Messages.Commands.CreateMessage;
 using Forum.Application.Messages.Queries.GetTopicMessages;
 using Forum.Application.Topics.Commands.CreateTopic;
+using Forum.Application.Topics.Commands.UpdateTopic;
 using Forum.Application.Topics.Queries.ExistsByTitle;
 using Forum.Application.Topics.Queries.GetTopicById;
 using Forum.Application.Topics.Queries.GetTopics;
@@ -93,5 +94,20 @@ public class TopicsController : ApiControllerBase
     public async Task<ActionResult<bool>> TopicExistsByTitleAsync([FromQuery] string title, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new TopicExistsByTitleQuery { Title = title }, cancellationToken);
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> UpdateTopicAsync([FromRoute] Guid id, [FromBody] UpdateTopicCommand command, CancellationToken cancellationToken)
+    {
+        if (id != command.TopicId)
+        {
+            return BadRequest();
+        }
+
+        await Mediator.Send(command, cancellationToken);
+
+        return NoContent();
     }
 }

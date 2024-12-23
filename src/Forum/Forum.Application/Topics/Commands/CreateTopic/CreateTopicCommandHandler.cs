@@ -3,6 +3,7 @@ using Forum.Application.Common.Intrefaces;
 using Forum.Domain;
 using Forum.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Application.Topics.Commands.CreateTopic;
 public class CreateTopicCommandHandler : IRequestHandler<CreateTopicCommand, Guid>
@@ -26,6 +27,13 @@ public class CreateTopicCommandHandler : IRequestHandler<CreateTopicCommand, Gui
         var topic = _mapper.Map<Topic>(request);
 
         topic.Author = _userProvider.User!;
+
+        var isTitleExist = await _dbContext.Topic.AnyAsync(x => x.Title == request.Title, cancellationToken);
+
+        if (isTitleExist)
+        {
+            throw new ArgumentException();
+        }
 
         _dbContext.Topic.Add(topic);
         await _dbContext.SaveChangesAsync(cancellationToken);
