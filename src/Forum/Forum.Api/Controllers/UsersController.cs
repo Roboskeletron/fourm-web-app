@@ -1,4 +1,5 @@
 ﻿using Forum.Application.Common.Models;
+using Forum.Application.Users.Commands.Register;
 using Forum.Application.Users.Commands.UpdateProfile;
 using Forum.Application.Users.Queries.GetProfile;
 using Forum.Application.Users.Queries.GetUserById;
@@ -34,5 +35,16 @@ public class UsersController : ApiControllerBase
     {
         await Mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
+    {
+        await Mediator.Send(command, cancellationToken);
+        return Created();
     }
 }

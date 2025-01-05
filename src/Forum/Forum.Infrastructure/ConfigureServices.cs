@@ -2,6 +2,8 @@
 using Forum.Domain;
 using Forum.Infrastructure.Common.Builders;
 using Forum.Infrastructure.Persistence;
+using Keycloak.AuthServices.Common;
+using Keycloak.AuthServices.Sdk;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,25 @@ public static class ConfigureServices
             .AddScoped<IApplicationDbContext, ApplicationDbContext>()
             .AddScoped<IUserProviderBuilder, UserProviderBuilder>()
             .AddTransient(sp => sp.GetRequiredService<IUserProviderBuilder>().Build());
+
+        services.Configure<KeycloakAdminClientOptions>(configuration.GetRequiredSection(KeycloakAdminClientOptions.Section));
+        services
+            .AddDistributedMemoryCache()
+            .AddClientCredentialsTokenManagement()
+            .AddClient(
+                "adminClient",
+                client =>
+                {
+                    var options = configuration.GetKeycloakOptions<KeycloakAdminClientOptions>();
+
+                    client.ClientId = options.Resource;
+                    client.ClientSecret = options.Credentials.Secret;
+                    client.TokenEndpoint = options.KeycloakTokenEndpoint;
+                }
+            );
+
+        services.AddKeycloakAdminHttpClient(configuration)
+            .AddClientCredentialsTokenHandler("adminClient");
 
         return services;
     }
