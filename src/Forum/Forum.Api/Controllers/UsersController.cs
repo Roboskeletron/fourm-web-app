@@ -1,6 +1,8 @@
 ﻿using Forum.Application.Common.Models;
 using Forum.Application.Users.Commands.Register;
 using Forum.Application.Users.Commands.UpdateProfile;
+using Forum.Application.Users.Queries.ExistsByEmail;
+using Forum.Application.Users.Queries.ExistsByUsername;
 using Forum.Application.Users.Queries.GetProfile;
 using Forum.Application.Users.Queries.GetUserById;
 using Microsoft.AspNetCore.Authorization;
@@ -42,9 +44,27 @@ public class UsersController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
     [AllowAnonymous]
-    public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult> RegisterUserAsync([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
     {
         await Mediator.Send(command, cancellationToken);
         return Created();
+    }
+
+    [HttpGet("exists-by-email")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult<bool>> ExistsByEmailAsync([FromQuery] string email, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new UserExistsByEmailQuery { Email = email }, cancellationToken);
+    }
+
+    [HttpGet("exists-by-username")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult<bool>> ExistsByUsernameAsync([FromQuery] string username, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new UserExistsByUsernameQuery { Username = username }, cancellationToken);
     }
 }
