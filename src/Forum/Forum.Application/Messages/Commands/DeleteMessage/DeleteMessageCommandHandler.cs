@@ -5,11 +5,6 @@ using Forum.Domain.Entities;
 using Forum.Domain.RBAC;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forum.Application.Messages.Commands.DeleteMessage;
 public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand>
@@ -29,7 +24,7 @@ public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand>
             ?? throw new NotFoundException(nameof(Message), request.MessageId);
 
         if (message.Author.Id != _userProvider.User!.Id
-            ||!_userProvider.User.Roles.Any(x => x.Id == Roles.Administrator.Id))
+            && !_userProvider.User.Roles.Any(x => x.Id == Roles.Administrator.Id))
         {
             throw new ForbiddenAccessException();
         }

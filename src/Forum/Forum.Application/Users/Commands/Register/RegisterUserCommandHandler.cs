@@ -22,6 +22,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand>
     {
         var userRepresentation = new UserRepresentation
         {
+            Username = command.Name,
             Email = command.Email,
             FirstName = command.Name,
             LastName = command.Name,
