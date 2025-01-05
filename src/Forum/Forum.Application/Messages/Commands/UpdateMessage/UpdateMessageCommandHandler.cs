@@ -30,6 +30,7 @@ public class UpdateMessageCommandHandler : IRequestHandler<UpdateMessageCommand>
         }
 
         message.Text = command.Text;
+        message.UpdatedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
