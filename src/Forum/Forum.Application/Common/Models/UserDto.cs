@@ -9,8 +9,6 @@ public record UserDto
 
     public string? Description { get; init; }
 
-    public Guid? AvatarId { get; init; }
-
     public DateTime CreatedAt { get; init; }
 
     public List<RoleDto> Roles { get; init; } = [];

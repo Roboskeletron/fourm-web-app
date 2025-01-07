@@ -10,7 +10,8 @@ public class UserMappingProfile : Profile
     {
         CreateMap<User, UserDto>();
 
-        CreateMap<UpdateProfileCommand, User>();
+        CreateMap<UpdateProfileCommand, User>()
+            .ForMember(dest => dest.Avatar, opt => opt.Ignore());
 
         CreateMap<User, AuthorDto>();
     }

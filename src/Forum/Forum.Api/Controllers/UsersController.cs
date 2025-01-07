@@ -33,7 +33,7 @@ public class UsersController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> UpdateProfileAsync([FromBody] UpdateProfileCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateProfileAsync([FromForm] UpdateProfileCommand command, CancellationToken cancellationToken)
     {
         await Mediator.Send(command, cancellationToken);
         return Ok();

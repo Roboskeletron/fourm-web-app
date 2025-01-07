@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Forum.Application.Common.Intrefaces;
 using Forum.Domain;
+using Forum.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Application.Users.Commands.UpdateProfile;
 public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand>
@@ -22,9 +24,24 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand>
 
     public async Task Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
     {
-        var user = _userProvider.User;
+        var user = await _dbContext.Users
+            .Include(x => x.Avatar)
+            .FirstOrDefaultAsync(x => x.Id == _userProvider.User!.Id, cancellationToken);
 
-        _mapper.Map(request, user);
+        _mapper.Map(request, user!);
+
+        if (request.Avatar != null)
+        {
+            using var stream = new MemoryStream();
+            await request.Avatar.CopyToAsync(stream, cancellationToken);
+
+            var avatar = new Avatar
+            {
+                Data = stream.ToArray(),
+            };
+
+            user!.Avatar = avatar;
+        }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }

@@ -7,7 +7,7 @@ public class User
 
     public required string Email { get; set; }
 
-    public Guid? AvatarId { get; set; }
+    public Avatar? Avatar { get; set; }
 
     public string? Description { get; set; }
 

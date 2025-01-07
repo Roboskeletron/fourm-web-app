@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Forum.Application.Users.Commands.UpdateProfile;
 public record UpdateProfileCommand : IRequest
@@ -7,6 +8,6 @@ public record UpdateProfileCommand : IRequest
 
     public string? Description { get; init; }
 
-    public Guid? AvatarId { get; init; }
+    public IFormFile? Avatar { get; init; }
 }
 
