@@ -8,5 +8,7 @@ public record GetMessagesByTopicIdQuery : IRequest<PagedList<MessageDto>>
 
     public required PaginationParameters Pagination { get; init; }
 
-    public string? SearchQuery { get; init; }
+    public string? Author { get; init; }
+
+    public string? Content { get; init; }
 }

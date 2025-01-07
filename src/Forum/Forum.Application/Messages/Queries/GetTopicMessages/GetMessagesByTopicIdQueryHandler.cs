@@ -24,8 +24,10 @@ public class GetMessagesByTopicIdQueryHandler : IRequestHandler<GetMessagesByTop
     {
         return await _dbContext.Message
             .Where(x => x.TopicId == request.TopicId && !x.IsDeleted)
-            .Where(x => string.IsNullOrEmpty(request.SearchQuery) ||
-                        EF.Functions.Like(x.Text, $"%{request.SearchQuery}%"))
+            .Where(x => string.IsNullOrEmpty(request.Author) ||
+                        EF.Functions.Like(x.Author.Name, $"%{request.Author}%"))
+            .Where(x => string.IsNullOrEmpty(request.Content) ||
+                        EF.Functions.Like(x.Text, $"%{request.Content}%"))
             .Include(x => x.Author)
             .Select(x => new MessageDto
             {

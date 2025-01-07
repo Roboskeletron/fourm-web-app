@@ -18,14 +18,18 @@ public class TopicsController : ApiControllerBase
     [ProducesDefaultResponseType]
     [AllowAnonymous]
     public async Task<ActionResult<PagedList<TopicDto>>> GetTopicsAsync(
-        [FromQuery(Name = "search")] string? searchQuery,
+        [FromQuery] string? author,
+        [FromQuery] string? title,
+        [FromQuery] string? content,
         [FromQuery] PaginationParameters pagination,
         CancellationToken cancellationToken)
     {
         return await Mediator.Send(new GetTopicsQuery
         {
             Pagination = pagination,
-            SearchQuery = searchQuery,
+            Author = author,
+            Title = title,
+            Content = content,
         }, cancellationToken);
     }
 
@@ -45,7 +49,8 @@ public class TopicsController : ApiControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<PagedList<MessageDto>>> GetTopicMessagesAsync(
         [FromRoute] Guid id,
-        [FromQuery(Name = "search")] string? searchQuery,
+        [FromQuery] string? author,
+        [FromQuery] string? content,
         [FromQuery] PaginationParameters pagination,
         CancellationToken cancellationToken)
     {
@@ -53,7 +58,8 @@ public class TopicsController : ApiControllerBase
         {
             TopicId = id,
             Pagination = pagination,
-            SearchQuery = searchQuery,
+            Author = author,
+            Content = content,
         }, cancellationToken);
     }
 

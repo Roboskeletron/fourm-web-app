@@ -9,5 +9,5 @@ public record TopicDto
 
     public Guid AuthorId { get; init; }
 
-    public int UserCount { get; init; }
+    public long LikeCount { get; init; }
 }

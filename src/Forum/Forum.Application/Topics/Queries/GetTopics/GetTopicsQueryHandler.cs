@@ -17,18 +17,16 @@ public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<T
     public async Task<PagedList<TopicDto>> Handle(GetTopicsQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Topic
-            .Where(x => string.IsNullOrWhiteSpace(request.SearchQuery) || EF.Functions.Like(x.Title, $"%{request.SearchQuery}%"))
+            .Where(x => string.IsNullOrWhiteSpace(request.Title) || EF.Functions.Like(x.Title, $"%{request.Title}%"))
+            .Where(x => string.IsNullOrWhiteSpace(request.Author) || EF.Functions.Like(x.Author.Name, $"%{request.Author}%"))
+            .Where(x => string.IsNullOrWhiteSpace(request.Content) || EF.Functions.Like(x.Description, $"%{request.Content}%"))
             .Select(x => new TopicDto
             {
                 Id = x.Id,
                 Title = x.Title,
                 AuthorId = x.UserId,
                 Description = x.Description,
-                UserCount = _dbContext.Message
-                    .Where(m => m.TopicId == x.Id)
-                    .Select(m => m.UserId)
-                    .Distinct()
-                    .Count(),
+                LikeCount = 0,
             })
             .OrderBy(x => x.Title)
             .AsNoTracking()
