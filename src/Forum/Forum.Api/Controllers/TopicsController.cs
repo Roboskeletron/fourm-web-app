@@ -2,6 +2,8 @@
 using Forum.Application.Messages.Commands.CreateMessage;
 using Forum.Application.Messages.Queries.GetTopicMessages;
 using Forum.Application.Topics.Commands.CreateTopic;
+using Forum.Application.Topics.Commands.DislikeTopic;
+using Forum.Application.Topics.Commands.LikeTopic;
 using Forum.Application.Topics.Commands.UpdateTopic;
 using Forum.Application.Topics.Queries.ExistsByTitle;
 using Forum.Application.Topics.Queries.GetTopicById;
@@ -115,5 +117,23 @@ public class TopicsController : ApiControllerBase
         await Mediator.Send(command, cancellationToken);
 
         return NoContent();
+    }
+
+    [HttpPatch("{id}/like")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<TopicDto>> LikeTopicAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new LikeTopicCommand { TopicId = id }, cancellationToken);
+    }
+
+    [HttpPatch("{id}/dislike")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<TopicDto>> DislikeTopicAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new DislikeTopicCommand { TopicId = id }, cancellationToken);
     }
 }

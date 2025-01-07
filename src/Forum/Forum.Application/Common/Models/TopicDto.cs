@@ -10,4 +10,6 @@ public record TopicDto
     public Guid AuthorId { get; init; }
 
     public long LikeCount { get; init; }
+
+    public bool CanLike { get; init; }
 }

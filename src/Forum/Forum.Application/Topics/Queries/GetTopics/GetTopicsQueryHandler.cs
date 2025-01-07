@@ -1,4 +1,5 @@
 ﻿using Forum.Application.Common.Extensions;
+using Forum.Application.Common.Intrefaces;
 using Forum.Application.Common.Models;
 using Forum.Domain;
 using MediatR;
@@ -8,10 +9,12 @@ namespace Forum.Application.Topics.Queries.GetTopics;
 public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<TopicDto>>
 {
     private readonly IApplicationDbContext _dbContext;
+    private readonly IUserProvider _userProvider;
 
-    public GetTopicsQueryHandler(IApplicationDbContext dbContext)
+    public GetTopicsQueryHandler(IApplicationDbContext dbContext, IUserProvider userProvider)
     {
         _dbContext = dbContext;
+        _userProvider = userProvider;
     }
 
     public async Task<PagedList<TopicDto>> Handle(GetTopicsQuery request, CancellationToken cancellationToken)
@@ -26,7 +29,8 @@ public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<T
                 Title = x.Title,
                 AuthorId = x.UserId,
                 Description = x.Description,
-                LikeCount = 0,
+                LikeCount = x.Likes.Count,
+                CanLike = _userProvider.User == null || !x.Likes.Any(x => x.UserId == _userProvider.User.Id),
             })
             .OrderBy(x => x.Title)
             .AsNoTracking()
