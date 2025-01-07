@@ -3,10 +3,12 @@ using Forum.Application.Users.Commands.Register;
 using Forum.Application.Users.Commands.UpdateProfile;
 using Forum.Application.Users.Queries.ExistsByEmail;
 using Forum.Application.Users.Queries.ExistsByUsername;
+using Forum.Application.Users.Queries.GetAvatar;
 using Forum.Application.Users.Queries.GetProfile;
 using Forum.Application.Users.Queries.GetUserById;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Forum.Api.Controllers;
 public class UsersController : ApiControllerBase
@@ -66,5 +68,23 @@ public class UsersController : ApiControllerBase
     public async Task<ActionResult<bool>> ExistsByUsernameAsync([FromQuery] string username, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new UserExistsByUsernameQuery { Username = username }, cancellationToken);
+    }
+
+    [HttpGet("{id}/avatar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [AllowAnonymous]
+    public async Task<ActionResult> GetUserAvatarAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var avatar = await Mediator.Send(new GetUserAvatarQuery { UserId = id }, cancellationToken);
+
+        if (avatar == null)
+        {
+            return NoContent();
+        }
+
+        return File(avatar.Data, MediaTypeNames.Image.Bmp);
     }
 }
