@@ -22,12 +22,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Email)
             .HasMaxLength(User.EmailMaxLength);
 
-        builder.HasMany<Like>()
+        builder.HasMany<MessageLike>()
             .WithOne()
             .HasForeignKey(x => x.UserId);
 
-        builder.HasMany(x => x.Roles)
-            .WithMany();
+        builder.HasMany<TopicLike>()
+            .WithOne()
+            .HasForeignKey(x => x.UserId);
 
         builder.ToTable($"{nameof(User)}s");
 

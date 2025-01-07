@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Forum.Domain.Configurations;
-public class LikeConfiguration : IEntityTypeConfiguration<Like>
+public class MessageLikeConfiguration : IEntityTypeConfiguration<MessageLike>
 {
-    public void Configure(EntityTypeBuilder<Like> builder)
+    public void Configure(EntityTypeBuilder<MessageLike> builder)
     {
         builder.HasKey(x => x.Id);
 
-        builder.ToTable($"{nameof(Like)}s");
+        builder.ToTable($"{nameof(MessageLike)}s");
     }
 }

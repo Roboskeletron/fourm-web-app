@@ -21,10 +21,6 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .WithOne()
             .HasForeignKey(x => x.MessageId);
 
-        builder.HasMany(x => x.Files)
-            .WithOne()
-            .HasForeignKey(x => x.MessageId);
-
         builder.HasOne<Topic>()
             .WithMany()
             .HasForeignKey(x => x.TopicId);

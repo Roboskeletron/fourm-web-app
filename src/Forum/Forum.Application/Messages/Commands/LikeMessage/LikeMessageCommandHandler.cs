@@ -34,7 +34,7 @@ public class LikeMessageCommandHandler : IRequestHandler<LikeMessageCommand, Mes
             throw new InvalidOperationException($"Message {message.Id} is already liked by user {_userProvider.User!.Id}");
         }
 
-        message.Likes.Add(new Like { UserId = _userProvider.User!.Id });
+        message.Likes.Add(new MessageLike { UserId = _userProvider.User!.Id });
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

@@ -40,7 +40,6 @@ internal class UserProviderBuilder : IUserProviderBuilder
     private async Task<User> GetOrCreateUserAsync(Guid userId, string userName, string email)
     {
         var user = await _dbContext.Users
-            .Include(x => x.Roles)
             .FirstOrDefaultAsync(x => x.Id == userId);
 
         if (user == null)

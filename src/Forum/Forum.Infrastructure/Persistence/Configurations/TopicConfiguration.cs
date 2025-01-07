@@ -22,6 +22,10 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
             .WithMany()
             .HasForeignKey(x => x.UserId);
 
+        builder.HasMany(x => x.Likes)
+            .WithOne()
+            .HasForeignKey(x => x.TopicId);
+
         builder.ToTable($"{nameof(Topic)}s");
 
         builder.HasData(Topics.All);

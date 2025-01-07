@@ -42,7 +42,7 @@ public static class ConfigureServices
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidIssuer = authOptions.Authority,
                 ValidateLifetime = authOptions.ValidateLifetime,
             };

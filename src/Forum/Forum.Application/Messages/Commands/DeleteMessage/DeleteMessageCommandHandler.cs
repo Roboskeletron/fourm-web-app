@@ -2,7 +2,6 @@
 using Forum.Application.Common.Intrefaces;
 using Forum.Domain;
 using Forum.Domain.Entities;
-using Forum.Domain.RBAC;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,8 +22,7 @@ public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand>
         var message = await _dbContext.Message.FirstOrDefaultAsync(x => x.Id == request.MessageId && !x.IsDeleted, cancellationToken)
             ?? throw new NotFoundException(nameof(Message), request.MessageId);
 
-        if (message.Author.Id != _userProvider.User!.Id
-            && !_userProvider.User.Roles.Any(x => x.Id == Roles.Administrator.Id))
+        if (message.Author.Id != _userProvider.User!.Id)
         {
             throw new ForbiddenAccessException();
         }

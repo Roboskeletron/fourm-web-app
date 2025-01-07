@@ -11,6 +11,8 @@ public class Topic
 
     public User Author { get; set; }
 
+    public List<TopicLike> Likes { get; set; } = [];
+
     public bool IsDeleted { get; set; }
 
     public const int TitleMaxLength = 25;

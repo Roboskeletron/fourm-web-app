@@ -17,9 +17,7 @@ public class Message
 
     public User Author { get; set; }
 
-    public List<Like> Likes { get; set; } = [];
-
-    public List<File> Files { get; set; } = [];
+    public List<MessageLike> Likes { get; set; } = [];
 
     public const int TextMaxLength = 1000;
 }

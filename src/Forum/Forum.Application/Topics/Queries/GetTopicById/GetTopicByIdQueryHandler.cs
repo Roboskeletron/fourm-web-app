@@ -24,7 +24,7 @@ public class GetTopicByIdQueryHandler : IRequestHandler<GetTopicByIdQuery, Topic
                 Title = x.Title,
                 Description = x.Description,
                 AuthorId = x.Author.Id,
-                UserCount = _dbContext.Message.Where(m => m.TopicId == x.Id).Count(),
+                LikeCount = x.Likes.Count,
             })
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.TopicId, cancellationToken)
