@@ -26,6 +26,7 @@ public class DislikeMessageCommandHandler : IRequestHandler<DislikeMessageComman
         var message = await _dbContext.Message
         .Include(x => x.Likes)
         .Include(x => x.Author)
+        .Include(x => x.Comments.Where(x => !x.IsDeleted))
             .FirstOrDefaultAsync(x => x.Id == command.MessageId && !x.IsDeleted, cancellationToken)
             ?? throw new NotFoundException(nameof(Message), command.MessageId);
 
@@ -46,6 +47,7 @@ public class DislikeMessageCommandHandler : IRequestHandler<DislikeMessageComman
             Text = message.Text,
             TopicId = message.TopicId,
             LikeCount = message.Likes.Count,
+            CommentCount = message.Likes.Count,
         };
     }
 }

@@ -39,7 +39,7 @@ public class GetMessagesByTopicIdQueryHandler : IRequestHandler<GetMessagesByTop
                 TopicId = x.TopicId,
                 LikeCount = x.Likes.LongCount(),
                 CanLike = _userProvider.User == null || !x.Likes.Any(x => x.UserId == _userProvider.User.Id),
-                CommentCount = x.Comments.LongCount(),
+                CommentCount = x.Comments.Where(x => !x.IsDeleted).LongCount(),
             })
             .OrderBy(x => x.CreatedAt)
             .AsNoTracking()

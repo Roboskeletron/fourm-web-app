@@ -26,6 +26,7 @@ public class GetMessageCommentsQueryHandler : IRequestHandler<GetMessageComments
             .Include(x => x.Comments.Where(x => !x.IsDeleted))
                 .ThenInclude(x => x.Author)
             .SelectMany(x => x.Comments)
+            .Where(x => !x.IsDeleted)
             .Select(x => new CommentDto
             {
                 Id = x.Id,

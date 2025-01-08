@@ -26,6 +26,7 @@ public class LikeMessageCommandHandler : IRequestHandler<LikeMessageCommand, Mes
         var message = await _dbContext.Message
             .Include(x => x.Likes)
             .Include(x => x.Author)
+            .Include(x => x.Comments.Where(x => !x.IsDeleted))
             .FirstOrDefaultAsync(x => x.Id == command.MessageId && !x.IsDeleted, cancellationToken)
             ?? throw new NotFoundException(nameof(Message), command.MessageId);
 
@@ -48,6 +49,7 @@ public class LikeMessageCommandHandler : IRequestHandler<LikeMessageCommand, Mes
             Text = message.Text,
             TopicId = message.TopicId,
             LikeCount = message.Likes.Count,
+            CommentCount = message.Comments.Count,
         };
     }
 }

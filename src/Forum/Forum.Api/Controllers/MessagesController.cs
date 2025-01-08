@@ -5,6 +5,7 @@ using Forum.Application.Messages.Commands.DeleteMessage;
 using Forum.Application.Messages.Commands.DislikeMessage;
 using Forum.Application.Messages.Commands.LikeMessage;
 using Forum.Application.Messages.Commands.UpdateMessage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers;
@@ -73,6 +74,7 @@ public class MessagesController : ApiControllerBase
     [HttpGet("{id}/comments")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
+    [AllowAnonymous]
     public async Task<ActionResult<PagedList<CommentDto>>> GetMessageCommentsAsync(
         [FromRoute] Guid id,
         [FromQuery] PaginationParameters pagination,
