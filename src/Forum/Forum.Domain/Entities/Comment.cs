@@ -11,6 +11,8 @@ public class Comment
 
     public DateTime UpdatedAt { get; set; }
 
+    public User Author { get; set; }
+
     public string Text { get; set; }
 
     public bool IsDeleted { get; set; }

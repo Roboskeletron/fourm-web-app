@@ -1,4 +1,5 @@
 ﻿using Forum.Application.Comments.Commands.CreateComment;
+using Forum.Application.Comments.Queries.GetMessageComments;
 using Forum.Application.Common.Models;
 using Forum.Application.Messages.Commands.DeleteMessage;
 using Forum.Application.Messages.Commands.DislikeMessage;
@@ -67,5 +68,20 @@ public class MessagesController : ApiControllerBase
     {
         var commentId = await Mediator.Send(command with { MessageId = id }, cancellationToken);
         return CreatedAtAction(null, commentId);
+    }
+
+    [HttpGet("{id}/comments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<PagedList<CommentDto>>> GetMessageCommentsAsync(
+        [FromRoute] Guid id,
+        [FromQuery] PaginationParameters pagination,
+        CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new GetMessageCommentsQuery
+        {
+            MessageId = id,
+            Pagination = pagination
+        }, cancellationToken);
     }
 }
