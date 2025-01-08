@@ -16,4 +16,6 @@ public record MessageDto
     public long LikeCount { get; init; }
 
     public bool CanLike { get; init; }
+
+    public long CommentCount { get; init; }
 }
