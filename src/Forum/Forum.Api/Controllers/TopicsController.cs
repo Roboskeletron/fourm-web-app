@@ -73,7 +73,7 @@ public class TopicsController : ApiControllerBase
     public async Task<ActionResult<Guid>> CreateTopicAsync([FromBody] CreateTopicCommand command, CancellationToken cancellationToken)
     {
         var topicId = await Mediator.Send(command, cancellationToken);
-        return Created();
+        return CreatedAtAction(null, topicId);
     }
 
     [HttpPost("{id}/messages")]

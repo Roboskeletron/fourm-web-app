@@ -1,4 +1,5 @@
 ﻿using Forum.Application.Common.Models;
+using Forum.Application.Messages.Commands.AddComment;
 using Forum.Application.Messages.Commands.DeleteMessage;
 using Forum.Application.Messages.Commands.DislikeMessage;
 using Forum.Application.Messages.Commands.LikeMessage;
@@ -52,5 +53,19 @@ public class MessagesController : ApiControllerBase
     public async Task<ActionResult<MessageDto>> DislikeMessageAsync([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new DislikeMessageCommand { MessageId = id }, cancellationToken);
+    }
+
+    [HttpPost("{id}/comment")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<Guid>> SendCommentAsync(
+        [FromRoute] Guid id,
+        [FromBody] AddMessageCommentCommand command,
+        CancellationToken cancellationToken)
+    {
+        var commentId = await Mediator.Send(command with { MessageId = id }, cancellationToken);
+        return CreatedAtAction(null, commentId);
     }
 }
