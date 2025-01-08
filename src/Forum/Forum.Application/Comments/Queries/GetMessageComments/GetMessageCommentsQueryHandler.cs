@@ -20,6 +20,8 @@ public class GetMessageCommentsQueryHandler : IRequestHandler<GetMessageComments
     public async Task<PagedList<CommentDto>> Handle(GetMessageCommentsQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Message
+            .AsNoTracking()
+            .AsSplitQuery()
             .Where(x => !x.IsDeleted && x.Id == request.MessageId)
             .Include(x => x.Comments.Where(x => !x.IsDeleted))
                 .ThenInclude(x => x.Author)

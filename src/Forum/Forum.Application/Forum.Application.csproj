@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Comments\Commands\DeleteComment\" />
+  </ItemGroup>
+
 </Project>
