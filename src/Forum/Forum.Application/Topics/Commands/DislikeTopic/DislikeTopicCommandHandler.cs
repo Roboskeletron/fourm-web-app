@@ -23,7 +23,7 @@ public class DislikeTopicCommandHandler : IRequestHandler<DislikeTopicCommand, T
         var topic = await _dbContext.Topic
             .Include(x => x.Likes)
             .Include(x => x.Author)
-            .FirstOrDefaultAsync(x => x.Author.Id == _userProvider.User!.Id && !x.IsDeleted, cancellationToken)
+            .FirstOrDefaultAsync(x => x.Id == request.TopicId && !x.IsDeleted, cancellationToken)
             ?? throw new NotFoundException(nameof(Topic), request.TopicId);
 
         var like = topic.Likes.FirstOrDefault(x => x.UserId == _userProvider.User!.Id)
