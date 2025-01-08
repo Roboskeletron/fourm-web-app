@@ -23,6 +23,7 @@ public class GetTopicsQueryHandler : IRequestHandler<GetTopicsQuery, PagedList<T
             .Where(x => string.IsNullOrWhiteSpace(request.Title) || EF.Functions.Like(x.Title, $"%{request.Title}%"))
             .Where(x => string.IsNullOrWhiteSpace(request.Author) || EF.Functions.Like(x.Author.Name, $"%{request.Author}%"))
             .Where(x => string.IsNullOrWhiteSpace(request.Content) || EF.Functions.Like(x.Description, $"%{request.Content}%"))
+            .Where(x => !x.IsDeleted)
             .Select(x => new TopicDto
             {
                 Id = x.Id,

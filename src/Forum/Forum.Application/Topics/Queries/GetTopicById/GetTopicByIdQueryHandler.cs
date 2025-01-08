@@ -21,6 +21,7 @@ public class GetTopicByIdQueryHandler : IRequestHandler<GetTopicByIdQuery, Topic
     public async Task<TopicDto> Handle(GetTopicByIdQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Topic
+            .Where(x => !x.IsDeleted)
             .Select(x => new TopicDto
             {
                 Id = x.Id,

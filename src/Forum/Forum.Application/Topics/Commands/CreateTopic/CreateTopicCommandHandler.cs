@@ -28,7 +28,7 @@ public class CreateTopicCommandHandler : IRequestHandler<CreateTopicCommand, Gui
 
         topic.Author = _userProvider.User!;
 
-        var isTitleExist = await _dbContext.Topic.AnyAsync(x => x.Title == request.Title, cancellationToken);
+        var isTitleExist = await _dbContext.Topic.AnyAsync(x => x.Title == request.Title && !x.IsDeleted, cancellationToken);
 
         if (isTitleExist)
         {

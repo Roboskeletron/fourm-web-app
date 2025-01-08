@@ -2,6 +2,7 @@
 using Forum.Application.Messages.Commands.CreateMessage;
 using Forum.Application.Messages.Queries.GetTopicMessages;
 using Forum.Application.Topics.Commands.CreateTopic;
+using Forum.Application.Topics.Commands.DeleteTopic;
 using Forum.Application.Topics.Commands.DislikeTopic;
 using Forum.Application.Topics.Commands.LikeTopic;
 using Forum.Application.Topics.Commands.UpdateTopic;
@@ -72,7 +73,7 @@ public class TopicsController : ApiControllerBase
     public async Task<ActionResult<Guid>> CreateTopicAsync([FromBody] CreateTopicCommand command, CancellationToken cancellationToken)
     {
         var topicId = await Mediator.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetTopicByIdAsync), topicId);
+        return Created();
     }
 
     [HttpPost("{id}/messages")]
@@ -135,5 +136,16 @@ public class TopicsController : ApiControllerBase
     public async Task<ActionResult<TopicDto>> DislikeTopicAsync([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new DislikeTopicCommand { TopicId = id }, cancellationToken);
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> DeleteTopicAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        await Mediator.Send(new DeleteTopicCommand { TopicId = id }, cancellationToken);
+        return NoContent();
     }
 }

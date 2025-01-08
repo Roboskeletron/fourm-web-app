@@ -14,6 +14,6 @@ public class TopicExistsByTitleQueryHandler : IRequestHandler<TopicExistsByTitle
 
     public async Task<bool> Handle(TopicExistsByTitleQuery request, CancellationToken cancellationToken)
     {
-        return await _dbContext.Topic.AnyAsync(x => x.Title == request.Title, cancellationToken);
+        return await _dbContext.Topic.AnyAsync(x => x.Title == request.Title && !x.IsDeleted, cancellationToken);
     }
 }
