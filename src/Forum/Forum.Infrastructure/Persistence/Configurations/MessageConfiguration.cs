@@ -25,6 +25,10 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .WithMany()
             .HasForeignKey(x => x.TopicId);
 
+        builder.HasMany(x => x.Comments)
+            .WithOne()
+            .HasForeignKey(x => x.MessageId);
+
         builder.ToTable($"{nameof(Message)}s");
 
         builder.HasData(Messages.All());

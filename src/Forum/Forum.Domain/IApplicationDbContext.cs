@@ -10,6 +10,8 @@ public interface IApplicationDbContext
 
     DbSet<Message> Message { get; }
 
+    DbSet<Comment> Comment { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
 

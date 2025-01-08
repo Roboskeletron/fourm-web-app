@@ -30,6 +30,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne()
             .HasForeignKey(x => x.UserId);
 
+        builder.HasMany<Comment>()
+            .WithOne()
+            .HasForeignKey(x => x.AuthorId);
+
         builder.ToTable($"{nameof(User)}s");
 
         builder.HasData(Users.All);

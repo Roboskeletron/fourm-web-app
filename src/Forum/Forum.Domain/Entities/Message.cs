@@ -19,5 +19,7 @@ public class Message
 
     public List<MessageLike> Likes { get; set; } = [];
 
+    public List<Comment> Comments { get; set; }
+
     public const int TextMaxLength = 1000;
 }
