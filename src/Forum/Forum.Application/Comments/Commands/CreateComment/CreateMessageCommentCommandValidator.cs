@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using Forum.Domain.Entities;
 
-namespace Forum.Application.Messages.Commands.AddComment;
-public class AddMessageCommentCommandValidator : AbstractValidator<AddMessageCommentCommand>
+namespace Forum.Application.Comments.Commands.CreateComment;
+public class CreateMessageCommentCommandValidator : AbstractValidator<CreateMessageCommentCommand>
 {
-    public AddMessageCommentCommandValidator()
+    public CreateMessageCommentCommandValidator()
     {
         RuleFor(x => x.MessageId)
             .NotEmpty()

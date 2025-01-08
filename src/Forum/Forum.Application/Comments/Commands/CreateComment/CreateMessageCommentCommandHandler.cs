@@ -5,19 +5,19 @@ using Forum.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Forum.Application.Messages.Commands.AddComment;
-public class AddMessageCommentCommandHandler : IRequestHandler<AddMessageCommentCommand, Guid>
+namespace Forum.Application.Comments.Commands.CreateComment;
+public class CreateMessageCommentCommandHandler : IRequestHandler<CreateMessageCommentCommand, Guid>
 {
     private readonly IUserProvider _userProvider;
     private readonly IApplicationDbContext _dbContext;
 
-    public AddMessageCommentCommandHandler(IUserProvider userProvider, IApplicationDbContext dbContext)
+    public CreateMessageCommentCommandHandler(IUserProvider userProvider, IApplicationDbContext dbContext)
     {
         _userProvider = userProvider;
         _dbContext = dbContext;
     }
 
-    public async Task<Guid> Handle(AddMessageCommentCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateMessageCommentCommand command, CancellationToken cancellationToken)
     {
         var message = await _dbContext.Message
             .FirstOrDefaultAsync(x => x.Id == command.MessageId && !x.IsDeleted, cancellationToken)

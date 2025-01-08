@@ -1,5 +1,5 @@
-﻿using Forum.Application.Common.Models;
-using Forum.Application.Messages.Commands.AddComment;
+﻿using Forum.Application.Comments.Commands.CreateComment;
+using Forum.Application.Common.Models;
 using Forum.Application.Messages.Commands.DeleteMessage;
 using Forum.Application.Messages.Commands.DislikeMessage;
 using Forum.Application.Messages.Commands.LikeMessage;
@@ -62,7 +62,7 @@ public class MessagesController : ApiControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<Guid>> SendCommentAsync(
         [FromRoute] Guid id,
-        [FromBody] AddMessageCommentCommand command,
+        [FromBody] CreateMessageCommentCommand command,
         CancellationToken cancellationToken)
     {
         var commentId = await Mediator.Send(command with { MessageId = id }, cancellationToken);
